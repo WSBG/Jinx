@@ -75,7 +75,7 @@ def train_end(net, train_iter, test_iter, num_epochs, lr, device):
             if (i + 1) % (num_batches // 5) == 0 or i == num_batches - 1:
                 animator.add(epoch + (1 + i) / num_batches,
                              (train_l, train_acc, None))
-        test_acc = d2l.evaluate_accuracy_gpu()
+        test_acc = d2l.evaluate_accuracy_gpu(net, test_iter)
         animator.add(epoch + 1, (None, None, test_acc))
     print(f'loss {train_l:.3f}, train acc {train_acc:.3f}, '
           f'on {str(device)}')

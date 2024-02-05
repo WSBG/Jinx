@@ -13,13 +13,6 @@ import argparse
 from torch.autograd import Variable
 from models import *
 
-parser = argparse.ArgumentParser(description='PyTorch Fer2013 CNN Training')
-parser.add_argument('--model', type=str, default='VGG19', help='CNN architecture')
-parser.add_argument('--dataset', type=str, default='Fer2013', help='CNN architecture')
-parser.add_argument('--bs', default=128, type=int, help='learning rate')
-parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
-parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
-opt = parser.parse_args()
 
 use_cuda = torch.cuda.is_available()
 best_PublicTest_acc = 0  # best PublicTest accuracy
@@ -60,10 +53,10 @@ def train_end(net, train_iter, test_iter, num_epochs, lr, device):
         if epoch > learning_rate_decay_start and learning_rate_decay_start >= 0:
             frac = (epoch - learning_rate_decay_start) // learning_rate_decay_every
             decay_factor = learning_rate_decay_rate ** frac
-            current_lr = opt.lr * decay_factor
+            current_lr = lr * decay_factor
             utils.set_lr(optimizer, current_lr)  # set the decayed rate
         else:
-            current_lr = opt.lr
+            current_lr = lr
 
         for i, (X, y) in enumerate(train_iter):
             timer.start()
